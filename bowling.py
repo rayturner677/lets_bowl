@@ -5,20 +5,42 @@ def main():
 
     for frame in range(1, 10):
         print('frame', frame)
-        turn = int(input('How many pins did you knock down?'))
-        second_turn = int(input('How many pins did knock down this time?'))
+        first_roll = int(input('How many pins did you knock down?'))
 
-        while turn < 11 and second_turn < 11:
-            game.append([turn, second_turn])
-            total = turn + second_turn
-            total_frames.append(total)
-            final = sum(total_frames)
-            print('frame', frame, ':', total)
-            print(game)
-            print(final)
-            break
+        if first_roll == 10:
+            print('strike')
+            if frame + 1 < len(game):
+                total = 0
+                next_ball = game[frame + 1][0]
+                next_ball2 = game[frame + 1][1]
+                total += 10 + next_ball + next_ball2
+                total_frames.append(total)
+                print(total)
+
         else:
-            print('invalid response')
+            second_roll = int(input('How many pins did knock down this time?'))
+            if second_roll == 10 - first_roll:
+                print('spare')
+                if frame + 1 < len(game):
+                    total = 0
+                    next_ball = game[frame + 1][0]
+                    total += 10 + next_ball
+                    total_frames.append(total)
+                    print(total_frames)
+            else:
+                while first_roll < 11 and second_roll < 11:
+                    game.append([first_roll, second_roll])
+                    total = first_roll + second_roll
+                    total_frames.append(total)
+                    print('frame', frame, ':', total)
+                    print(game)
+                    break
+
+                else:
+                    print('invalid response')
+
+        final = sum(total_frames)
+        print(final)
 
 
 if __name__ == '__main__':
